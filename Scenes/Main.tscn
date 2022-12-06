@@ -1,0 +1,95 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/background.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Floor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Pipe.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Main.gd" type="Script" id=5]
+[ext_resource path="res://assets/ka1.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://assets/scoreboard.png" type="Texture" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 10
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 6 )
+
+[node name="Main" type="Node"]
+script = ExtResource( 5 )
+
+[node name="Background" type="Sprite" parent="."]
+scale = Vector2( 3, 3 )
+texture = ExtResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="Pipes" type="Node" parent="."]
+
+[node name="Pipe" parent="Pipes" instance=ExtResource( 3 )]
+position = Vector2( 500, 0 )
+
+[node name="Pipe2" parent="Pipes" instance=ExtResource( 3 )]
+position = Vector2( 773, 0 )
+
+[node name="Floors" type="Node" parent="."]
+
+[node name="Floor" parent="Floors" instance=ExtResource( 2 )]
+
+[node name="Floor2" parent="Floors" instance=ExtResource( 2 )]
+position = Vector2( 450, 0 )
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+position = Vector2( -25, 0 )
+
+[node name="UI" type="Node" parent="."]
+
+[node name="Label" type="Label" parent="UI"]
+visible = false
+anchor_left = -0.496
+anchor_top = -0.497
+anchor_right = 0.5
+anchor_bottom = -0.473
+margin_left = 0.199997
+margin_top = 38.2
+margin_right = 2.0
+margin_bottom = 42.8
+custom_fonts/font = SubResource( 1 )
+text = "0"
+align = 1
+valign = 1
+
+[node name="Scoreboard" type="Sprite" parent="UI"]
+visible = false
+scale = Vector2( 3, 3 )
+texture = ExtResource( 7 )
+
+[node name="ScoreLabel" type="Label" parent="UI/Scoreboard"]
+margin_left = -17.0
+margin_top = -14.0
+margin_right = 17.0
+custom_fonts/font = SubResource( 2 )
+text = "0"
+align = 1
+valign = 1
+
+[node name="BestLabel" type="Label" parent="UI/Scoreboard"]
+margin_left = -17.0
+margin_top = 5.33333
+margin_right = 17.0
+margin_bottom = 19.3333
+custom_fonts/font = SubResource( 2 )
+text = "0"
+align = 1
+valign = 1
+
+[connection signal="game_end" from="Player" to="." method="_on_Player_game_end"]
+[connection signal="game_start" from="Player" to="." method="_on_Player_game_start"]
+[connection signal="reset_game" from="Player" to="." method="_on_Player_reset_game"]
+[connection signal="scored" from="Player" to="." method="_on_Player_scored"]
